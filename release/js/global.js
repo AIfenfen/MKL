@@ -36,40 +36,6 @@ var Common = {
         }
         return true;
     },
-    ajaxFileUpload : function(obj){
-        var closestBox = obj.closest("div"),
-            idname = obj.attr("id"),
-            fileElementId = idname != undefined ? idname : "fileName";
-        closestBox.addClass("loading");
-
-        $.ajaxFileUpload({
-            url: obj.attr('data-url'),
-            secureuri: false,
-            fileElementId: fileElementId,
-            dataType: 'json',
-            type:"post",
-            success: function(result) {
-                closestBox.removeClass("loading");
-                var type = result['type'];// type 为返回状态
-                if (type == 1) {      //1、成功
-                    if (typeof(result['url']) != "undefined") {
-                        Common.showProp(result['msg'], Message.m009);
-                        setTimeout(function () {
-                            window.location.href = result['url']
-                        }, 3000);
-                    } else {
-                        Common.showProp(result['msg']);
-                    }
-                } else if (type == 0) {    //0、失败
-                    Common.showProp(result['msg']);
-                }
-            },
-            error:function(data){
-                console.log(data);
-            }
-        });
-        return false;
-    },
     emptyMsg:function(obj){
         return obj.closest("li").find("label").text().replace("：","不能为空。");
     },
@@ -77,8 +43,3 @@ var Common = {
         return obj.closest("li").find("label").text().replace("：","填写不正确。");
     }
 }
-
-var Message = {
-    m001 : "请求失败，请重试"
-}
-

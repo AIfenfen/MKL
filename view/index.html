@@ -22,10 +22,10 @@
       <section class="swiper-slide swiper-slide1">
           <img src="../release/img/part_01.png" class="ani resize" style="width:160px; height:auto;left:10px;top:30px;z-index:3;" swiper-animate-effect="zoomIn" swiper-animate-duration="1.5s" swiper-animate-delay="0s"  >
           <img src="../release/img/part_02.png" class="ani resize" style="width:320px;height:auto;left:0px;top:100px;z-index:1;" swiper-animate-effect="bounceInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.5s">
-          <button class="mkt-btn ani resize" style="width:160px;height:40px;left:80px;top:270px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="1.8s"  >
+          <button class="mkt-btn ani resize" id="sendMsg" style="width:160px;height:40px;left:80px;top:270px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="1.8s"  >
             报名参加
           </button>
-          <button class="mkt-btn ani resize" style="width:160px;height:40px;left:80px;top:320px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s"  >
+          <button class="mkt-btn ani resize" id="showDetail" style="width:160px;height:40px;left:80px;top:320px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s"  >
             活动详情
           </button>
           <p class="numberlist ani resize" style="width:300px;height:auto;left:10px;top:380px;z-index:1;" swiper-animate-effect="flipInY" swiper-animate-duration="1.5s" swiper-animate-delay="2.5s"><span>参与人数：000</span><span>正在审核人数：000</span><span>审核成功人数：000</span></p>
@@ -34,7 +34,7 @@
       </section>
 
       <!--slide2 报名表格-->
-      <section class="swiper-slide swiper-slide2">
+      <section class="swiper-slide swiper-slide2 swiper-no-swiping">
 
         <img src="../release/img/part_06.png" class="ani resize" style="width:260px;height:auto;left:30px;top:30px;z-index:5; " swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s">
 
@@ -54,7 +54,7 @@
           <div class="photo-box">
             <img src="#" class="show-photo">
             <input type="file" id="fileUpload">
-            <input type="hidden" id="imgUrl">
+            <input type="hidden" id="imgUrl" value="">
           </div>
         </div>
 
@@ -65,7 +65,7 @@
           <dd>3、房产证明：房屋产权证、房屋完税证明、购房合同原件（盖章页）、军产分房证明（盖章页）、购房发票。</dd>
         </dl>
 
-        <button class="mkt-btn ani resize" id="submitBtn" style="width:160px;height:40px;left:80px;bottom:50px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s">
+        <button class="mkt-btn ani resize" id="submitBtn" style="width:160px;height:40px;left:80px;bottom:50px;z-index:99;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s">
             确认提交
         </button>
       </section>
@@ -81,7 +81,7 @@
             <p>审核您所提交的资料并以短信形式</p>
             <p>为您推送审核结果</p>
         </div>
-        <button class="mkt-btn ani resize" style="width:160px;height:40px;left:80px;bottom:50px;z-index:1;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s">
+        <button class="mkt-btn ani resize" id="showAdress" style="width:160px;height:40px;left:80px;bottom:50px;z-index:1;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s">
             查看活动地址
         </button>
 
@@ -114,13 +114,28 @@
     <div class="swiper-pagination"></div>
 </div>
 
-
-
-
+<div class="detail-box">
+  <span class="close-btn"><img src="../release/img/detail-close.png"></span>
+  <dl>
+    <dt>活动期间顾客可凭购房合同原件，及与房产证姓名相同的身份证至红星美凯龙北五环商场免费领取500元通汇卡一张，限量600张，数量有限，先到先得，同一顾客同一年内同类型活动仅限领取一次；</dt>
+    <dd><span>报名日期：</span> 2016年8月19日-9月9日；</dd>
+    <dd><span>领取时间：</span> 2016年9月10日上午10点；</dd>
+    <dd><span>领取地点：</span> 建材馆一层大厅   </dd>
+  </dl>
+</div>
 
 <script src="../release/js/global.js"></script>
 <script>
-
+  //适配
+  var scaleW = window.innerWidth/320;
+  var scaleH = window.innerHeight/480;
+  var resizes = document.querySelectorAll('.resize');
+  for (var j = 0; j < resizes.length; j++) {
+    resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
+    resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
+    resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
+    resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px';
+  };
   var mySwiper = new Swiper ('.swiper-container', {
     direction : 'vertical',
     pagination: '.swiper-pagination',
@@ -157,6 +172,7 @@
   });
 
   var MKL = {
+    detail: ".detail-box",
     init: function(){
 
       //初始化resize
@@ -173,28 +189,75 @@
         if(!Common.phone($("#userPhone"))){
           return false;
         }
-        if(!MKL.checkPhone($("#userPhone"))){
+        if($("#imgUrl").val()===""){
+          Common.showProp("房产证未上传");
           return false;
         }
+        //提交
+        $.ajax({
+          type: 'GET',
+          url: 'http://www.baidu.com',     //url
+          data: {
+            name_id: $("#userName").val(),
+            phone_id: $("#userPhone").val(),
+            img_id: $("#imgUrl").val(),
+          },
+          dataType: 'json',
+          success: function(data){         //data={success:true}
+            if(data.success){
 
-
+            }
+          },
+          error: function(xhr, type){
+            Common.showProp("请求失败，请重试");
+          }
+        });
 
       });
+
+      $("#showDetail").click(function(){
+        $(MKL.detail).addClass("on");
+      });
+      $(".close-btn").click(function(){
+        $(MKL.detail).removeClass("on");
+      });
+      $("#userPhone").blur(function(){
+        MKL.checkPhone($("#userPhone"));
+      });
+
+      //swiper 拓展
+      $('#sendMsg').click(function(){
+        mySwiper.slideTo(1, 1000, true);
+      });
+      $('#showAdress').click(function(){
+        mySwiper.slideTo(3, 1000, true);
+      });
     },
-    checkPhone: function(){
-
-
+    checkPhone: function(obj){
+      var phone = obj;
+      $.ajax({
+        type: 'GET',
+        url: 'http://www.baidu.com',     //url
+        data: {phone_id: phone.val() },  //验证电话ID
+        dataType: 'json',
+        success: function(data){         //data={fail:true}
+          if(data.fail){
+            Common.showProp("该手机号已经绑定");
+            $("#submitBtn").attr("disabled","disabled");
+            return false;
+          }else{
+            $("#submitBtn").removeAttr('disabled');
+            return true;
+          }
+        },
+        error: function(xhr, type){
+          Common.showProp("请求失败，请重试");
+          $("#submitBtn").removeAttr('disabled')
+          return false;
+        }
+      });
     },
     resizeIng: function(){
-      var scaleW = window.innerWidth/320;
-      var scaleH = window.innerHeight/480;
-      var resizes = document.querySelectorAll('.resize');
-      for (var j = 0; j < resizes.length; j++) {
-        resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-        resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-        resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-        resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px';
-      };
     }
   }
 
