@@ -37,8 +37,6 @@ var Common = {
         }
         return true;
     },
-
-
     ajaxFileUpload : function(obj){
         var closestBox = obj.closest("div"),
             idname = obj.attr("id"),
@@ -78,89 +76,10 @@ var Common = {
     },
     errorMsg:function(obj){
         return obj.closest("li").find("label").text().replace("：","填写不正确。");
-    },
-    asyn:function(options){
-        var options = $.extend({
-            btn:"",
-            url:"",
-            data:"",
-            type:"post",
-            dataType:"json"
-            },options);
-        options.btn.attr("disabled","disabled");
-        $.ajax({
-            url : options.url,
-            data : options.date,
-            type : options.type,
-            dataType : options.dataType,
-            success : function(result){
-                var type = result.type;// type 为返回状态
-                if(type == 1){      //1、成功
-                    if(typeof(result.url) != "undefined"){
-                        Common.showProp(result.msg,Message.m009);
-                        setTimeout(function(){window.location.href=result.url},3000); //这个url指的需要跳转到的页面，例如登入成功跳到首页，找回密码成功就可能跳到个人中心。
-                    }else{
-                        Common.showProp(result.msg);  //msg为返回状态，这里是例如登入成功，或者注册成功
-                    }
-                }else if(type == 0){  //0、失败
-                    Common.showProp(result.msg);  //mgs为返回状态，这里是失败的原因。
-                    if(typeof(options.fn) != "undefined"){
-                        options.fn();
-                    }
-                    options.btn.removeAttr("disabled");
-                }else{          //其他原因,例如请求头信息错误之类的
-                    Common.showProp(Message.m008);   //请求失败，请重试
-                    if(typeof(options.fn) != "undefined"){
-                        options.fn();
-                    }
-                    options.btn.removeAttr("disabled");
-                }
-            },
-            error:function(){
-                Common.showProp(Message.m008);       //请求失败，请重试
-                if(typeof(options.fn) != "undefined"){
-                    options.fn();
-                }
-                options.btn.removeAttr("disabled");
-            }
-        });
     }
 }
 
-;(function($) {
-    $.fn.extend({
-        isOnScreen:function(options){
-            var options = $.extend({
-            },options);
-            var win = $(window);
-            var viewport = {
-                top : win.scrollTop(),
-                left : win.scrollLeft()
-            };
-            viewport.right = viewport.left + win.width();
-            viewport.bottom = viewport.top + win.height();
-            var bounds = this.offset();
-            bounds.right = bounds.left + this.outerWidth();
-            bounds.bottom = bounds.top + this.outerHeight();
-            return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-        },
-        lazyload:function(options){
-            var options = $.extend({
-                cattr:'src',
-                mattr:'data-original',
-                els:'img',
-                rate:200
-            },options);
-            var loadData = function(){
-                var em = $(options.els+":visible["+options.mattr+"]");
-                em.each(function(){
-                    if($(this).isOnScreen()){
-                        var mattr = $(this).attr(options.mattr);
-                        $(this).attr(options.cattr,mattr).removeAttr(options.mattr);
-                    }
-                });
-            }
-            loadrun = setInterval(loadData,options.rate);
-        }
-    });
-})(zepto);
+var Message = {
+    m001 : "请求失败，请重试"
+}
+
