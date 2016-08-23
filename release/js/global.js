@@ -11,13 +11,12 @@ var Common = {
                         "</div>"
                    +"</div>";
             $("body").append(box);
-            $(".Prop").fadeIn();
-
+            $(".Prop").show();
             $(".Prop .closeBtn").click(function(){
-                $(".Prop").fadeOut();
+                $(".Prop").hide();
             });
         }else{
-            $(".Prop").fadeIn().find(".text").text(msg);
+            $(".Prop").show().find(".text").text(msg);
         }
     },
     empty : function(obj){
