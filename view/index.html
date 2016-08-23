@@ -9,8 +9,10 @@
 
 <script src="../lib/swiper.min.js"></script>
 <script src="../lib/swiper.animate.min.js"></script>
+<script src="../lib/zepto.min.js"></script>
 
 <link rel="stylesheet" href="../release/css/main.min.css">
+
 </head>
 
 <body>
@@ -63,7 +65,7 @@
           <dd>3、房产证明：房屋产权证、房屋完税证明、购房合同原件（盖章页）、军产分房证明（盖章页）、购房发票。</dd>
         </dl>
 
-        <button class="mkt-btn ani resize" style="width:160px;height:40px;left:80px;bottom:50px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s">
+        <button class="mkt-btn ani resize" id="submitBtn" style="width:160px;height:40px;left:80px;bottom:50px;z-index:1;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="2.2s">
             确认提交
         </button>
       </section>
@@ -101,38 +103,34 @@
         </dl>
 
         <img src="../release/img/part_05.png" class="ani resize" style="width:60px;height:auto;left:10px;bottom:10px;z-index:1;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="1.2s"  >
+
         <img src="../release/img/white-tip.png" class="ani resize" style="width:130px;height:auto;left:80px;bottom:10px;z-index:1;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="1.4s">
+
       </section>
     </div>
 
-   <img src="../release/img/arrow.png" style="width:20px;height:15px; top:460px; left:150px;" id="array" class="resize">
-  <div class="swiper-pagination"></div>
+    <!-- //tools -->
+    <img src="../release/img/arrow.png" style="width:20px;height:15px; top:460px; left:150px;" id="array" class="resize">
+    <div class="swiper-pagination"></div>
 </div>
 
+
+<script src="../release/js/global.js"></script>
 <script>
-scaleW=window.innerWidth/320;
-scaleH=window.innerHeight/480;
-var resizes = document.querySelectorAll('.resize');
-  for (var j=0; j<resizes.length; j++) {
-   resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-   resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-   resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-   resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px';
-  }
 
   var mySwiper = new Swiper ('.swiper-container', {
-   direction : 'vertical',
-   pagination: '.swiper-pagination',
-   mousewheelControl : true,
-   onInit: function(swiper){
-   swiperAnimateCache(swiper);
-   swiperAnimate(swiper);
-      },
-   onSlideChangeEnd: function(swiper){
-    swiperAnimate(swiper);
+    direction : 'vertical',
+    pagination: '.swiper-pagination',
+    mousewheelControl : true,
+    onInit: function(swiper){
+      swiperAnimateCache(swiper);
+      swiperAnimate(swiper);
+    },
+    onSlideChangeEnd: function(swiper){
+      swiperAnimate(swiper);
     },
     onTransitionEnd: function(swiper){
-    swiperAnimate(swiper);
+      swiperAnimate(swiper);
     },
     watchSlidesProgress: true,
       onProgress: function(swiper){
@@ -151,18 +149,54 @@ var resizes = document.querySelectorAll('.resize');
         for (var i = 0; i < swiper.slides.length; i++){
           es = swiper.slides[i].style;
           es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
-
         }
       },
+  });
 
-      })
+  var MKL = {
+    init: function(){
 
-  var common = {
+      //初始化resize
+      this.resizeIng();
 
+      //提交报名
+      $("#submitBtn").click(function(){
+        if(!Common.empty($("#userName"))){
+          return false;
+        }
+        if(!Common.empty($("#userPhone"))){
+          return false;
+        }
+        if(!Common.phone($("#userPhone"))){
+          return false;
+        }
+        if(!MKL.checkPhone($("#userPhone"))){
+          return false;
+        }
+
+
+
+      });
+    },
+    checkPhone: function(){
+
+
+    },
+    resizeIng: function(){
+      var scaleW = window.innerWidth/320;
+      var scaleH = window.innerHeight/480;
+      var resizes = document.querySelectorAll('.resize');
+      for (var j = 0; j < resizes.length; j++) {
+        resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
+        resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
+        resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
+        resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px';
+      };
+    }
   }
 
   $(function(){
-
+    MKL.init();
   });
 
 
