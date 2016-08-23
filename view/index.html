@@ -125,6 +125,7 @@
 </div>
 
 <script src="../release/js/global.js"></script>
+
 <script>
   //适配
   var scaleW = window.innerWidth/320;
@@ -263,8 +264,24 @@
 
   $(function(){
     MKL.init();
-  });
 
+    $("#fileUpload").on("change", function() {
+      var _this = $(this);
+      var fr = new FileReader();
+      fr.readAsDataURL(this.files[0]);
+
+      var img = new Image();
+      var upImg = _this.closest(".photo-box");
+      fr.onload = function() {
+        img.src = this.result;
+        $("#imgUrl").val(this.result);          //图片上传赋值
+        img.onload = function() {
+          upImg.find("img").remove();
+          upImg.append(img);
+        }
+      }
+    });
+  });
 
 </script>
 </body>

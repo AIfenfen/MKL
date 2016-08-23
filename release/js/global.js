@@ -43,3 +43,4 @@ var Common = {
         return obj.closest("li").find("label").text().replace("：","填写不正确。");
     }
 }
+
