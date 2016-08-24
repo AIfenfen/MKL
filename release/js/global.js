@@ -13,10 +13,13 @@ var Common = {
             $("body").append(box);
             $(".Prop").show();
             $(".Prop .closeBtn").click(function(){
+                var _this = $(this);
+                if(_this.html()==="请等待")return false;
                 $(".Prop").hide();
             });
         }else{
             $(".Prop").show().find(".text").text(msg);
+            $(".Prop").show().find(".closeBtn").text(btn);
         }
     },
     empty : function(obj){
