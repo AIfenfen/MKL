@@ -12,7 +12,18 @@
 <script src="../lib/zepto.min.js"></script>
 
 <link rel="stylesheet" href="../release/css/main.min.css">
-
+<style>
+    .bg-white{
+        position: fixed;
+        background: rgba(255,255,255,0.2);
+        width: 100%;
+        height: 100%;
+        left:0px;
+        top:0px;
+        display: none;
+        z-index: 99;
+    }
+</style>
 </head>
 
 <body>
@@ -123,6 +134,7 @@
     <dd><span>领取地点：</span> 建材馆一层大厅   </dd>
   </dl>
 </div>
+<div class="bg-white"></div>
 
 <script src="../release/js/global.js"></script>
 
@@ -218,9 +230,11 @@
 
       $("#showDetail").click(function(){
         $(MKL.detail).addClass("on");
+        $(".bg-white").show();
       });
       $(".close-btn").click(function(){
         $(MKL.detail).removeClass("on");
+        $(".bg-white").hide();
       });
       $("#userPhone").blur(function(){
         MKL.checkPhone($("#userPhone"));
