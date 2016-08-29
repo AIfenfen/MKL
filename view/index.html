@@ -23,6 +23,17 @@
         display: none;
         z-index: 99;
     }
+    .delet-photo{
+        width:30px !important;
+        height:30px !important;
+        color: #fff;
+        background: rgba(0,0,0,0.6);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 28px;
+        font-size: 2rem;
+        display: none;
+    }
 </style>
 </head>
 
@@ -59,7 +70,7 @@
             <p><input type="number" id="userPhone"/></p>
           </li>
         </ul>
-
+        <div class="delet-photo resize ani" style="left:252px;top:165px;z-index:10;">×</div>
         <div class="photo ani resize" style="width:220px;height:auto;left:50px;top:150px;z-index:5; " swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="0.8s">
           <p>房产证正面</p>
           <div class="photo-box">
@@ -255,6 +266,11 @@
       $('#showAdress').click(function(){
         mySwiper.slideTo(3, 1000, true);
       });
+      $(".delet-photo").click(function(){
+          $("#imgUrl").val("");
+          $(".photo-box").find("img").remove();
+          $(this).hide();
+      });
     },
     checkPhone: function(obj){
       var phone = obj;
@@ -300,6 +316,7 @@
         img.onload = function() {
           upImg.find("img").remove();
           upImg.append(img);
+          $(".delet-photo").show();
         }
       }
     });
